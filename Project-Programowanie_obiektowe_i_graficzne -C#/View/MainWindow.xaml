@@ -1,0 +1,626 @@
+﻿<Window x:Class="projektgrupowy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:projektgrupowy"
+        xmlns:vm="clr-namespace:projektgrupowy.ViewModel"
+        
+        mc:Ignorable="d"
+        Title="ProjektGrupowy" Height="600" Width="900">
+
+
+    <Window.Resources>
+        <vm:MainViewModel x:Key="mainVM"/>
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource mainVM}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+           
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <TabControl Grid.ColumnSpan="4">
+            <TabItem x:Name="czytelnicyiksiazki" Header="Czytelnicy i Książki">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- LISTA OSOB  -->
+                    <ListView x:Name="znajomi" Grid.Column="0"  
+                              SelectedItem="{Binding TabListaVM.BiezacyCzytelnik}" 
+                              ItemsSource="{Binding TabListaVM.Czytelnicy}"
+                              SelectedIndex="{Binding TabListaVM.IndeksZaznaczonegoCzytelnika, Mode=TwoWay}" Grid.ColumnSpan="3">
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujKsiazki}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn x:Name="kolumna_Imie">
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Imie}" FontSize="14"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Imie" Background="AliceBlue" Width="{Binding ActualWidth, ElementName=kolumna_Imie}" >
+                                             <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujWyszystkichCzytelnikow}"/>
+                                                </i:EventTrigger>
+                                              </i:Interaction.Triggers>
+                                            </TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn>
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Nazwisko}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Nazwisko"></TextBlock>
+                                        </GridViewColumn.Header>
+
+                                    </GridViewColumn>
+
+                                    <GridViewColumn >
+                                        <GridViewColumn.CellTemplate >
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Telefon}"  HorizontalAlignment="Stretch"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Telefon"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+
+
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <!-- LISTA -->
+                    <ListView x:Name="telefony" Grid.Column="4" 
+                              SelectedItem="{Binding TabListaVM.BiezacaKsiazka}" 
+                              ItemsSource="{Binding TabListaVM.Ksiazki}"
+                              SelectedIndex="{Binding TabListaVM.IndeksZaznaczonejKsiazki}" 
+                    >
+
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn Width="200" x:Name="kolumna_Tytul" >
+
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Tytul}" FontSize="14"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Tytuł" Background="AliceBlue" Width="{Binding ActualWidth, ElementName=kolumna_Tytul}" >
+                                             <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseDown">
+                                                    <i:InvokeCommandAction Command="{Binding TabListaVM.ZaladujWszystkieKsiazki}"/>
+                                                </i:EventTrigger>
+                                              </i:Interaction.Triggers>
+                                            </TextBlock>
+                                        </GridViewColumn.Header>
+
+                                    </GridViewColumn>
+
+                                    <GridViewColumn>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Nazwa_autora}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Autor"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn >
+                                        <GridViewColumn.CellTemplate >
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Rok_wydania}"  HorizontalAlignment="Stretch"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Rok wydania"></TextBlock>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+
+
+
+
+            <TabItem x:Name="dodajksiazke" Header="Dodaj nową książkę">
+                <Grid>
+                    <!--
+                - dodanie nowej książki do bazy - zakładka nr.2
+	            podac:
+		        tytul
+		        id_autor 
+		        id_wydawnictwo
+		        id_kategoria
+		        rok_wydania
+		
+                -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <TextBlock Text="Tytuł:"/>
+                        <TextBox x:Name="tytul"  Text="{Binding TabDodKsiazke.Tytul}"/>
+                        <TextBlock Text="Autor:"/>
+                        <ComboBox Grid.Row="0" Grid.Column="0" 
+                        SelectedItem="{Binding TabDodKsiazke.BiezacyAutor, UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{Binding TabDodKsiazke.Autorzy, Mode=TwoWay}" 
+                        Height="30" VerticalAlignment="Top"  Margin="10" FontSize="16"
+                        Name="autorzy" />
+                        <TextBlock Text="Wydawnictwo:"/>
+                        <ComboBox Grid.Row="0" Grid.Column="0" SelectedItem="{Binding TabDodKsiazke.BiezaceWydawnictwo, Mode=TwoWay}"
+                        ItemsSource="{Binding TabDodKsiazke.Wydawnicwta, Mode=TwoWay}" 
+                        Height="30" VerticalAlignment="Top"  Margin="10" FontSize="16"
+                        Name="wydawnictwa" />
+                        <TextBlock Text="Kategoria:"/>
+                        <ComboBox Grid.Row="0" Grid.Column="0"
+                        SelectedItem="{Binding TabDodKsiazke.BiezacaKategoria, Mode=TwoWay}"
+                        ItemsSource="{Binding TabDodKsiazke.Kategorie, Mode=TwoWay}" 
+                        Height="30" VerticalAlignment="Top"  Margin="10" FontSize="16"
+                        Name="kategorie" />
+
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Rok wydania:" Grid.Column="0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding TabDodKsiazke.Rok_wydania}"  HorizontalAlignment="Right" />
+                        </Grid>
+
+                        <Slider x:Name="Rok_wydania" Minimum ="1800" Maximum="2021" Value="{Binding TabDodKsiazke.Rok_wydania}" TickFrequency="1" IsSnapToTickEnabled="True" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_Dodaj" Grid.Column="0" Content="Dodaj książkę do bazy"
+                                    Margin="5"
+                                    Command="{Binding TabDodKsiazke.DodajKsiazke}"
+                             />
+                            <Button x:Name="button_edytuj" Grid.Column="1" Content="Edytuj ksiazke"
+                                    Margin="5"
+                                    Command="{Binding TabDodKsiazke.EdytujKsiazke}"
+                             />
+                        </Grid>
+                    </StackPanel>
+                    <!-- LISTA KSIAZEK  -->
+                    <DataGrid 
+                        x:Name="dg_ksiazki_dla_wypozyczenia"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabDodKsiazke.Ksiazki}"
+                        SelectedItem="{Binding TabDodKsiazke.AktualnieWybranaKsiazka}" >
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tytuł" Binding="{Binding Tytul}"/>
+                            <DataGridTextColumn Header="Autor" Binding="{Binding Nazwa_autora}"/>
+                            <DataGridTextColumn Header="wydawnictwo" Binding="{Binding Nazwa_wydawnictwa}"/>
+                            <DataGridTextColumn Header="Kategoria" Binding="{Binding Nazwa_kategorii}"/>
+                            <DataGridTextColumn Header="Rok wydania" Binding="{Binding Rok_wydania}"/>
+                        </DataGrid.Columns>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TabDodKsiazke.WczytajFormularz}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        
+                    </DataGrid>
+
+
+
+
+
+
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="dodajkategorie" Header="Dodaj nową kategorię">
+                <Grid>
+               
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <TextBlock Text="Kategoria:"/>
+                        <TextBox x:Name="kategoria"  Text="{Binding TabDodKategorie.Nazwa}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_Dodaj_kat" Grid.Column="0" Content="Dodaj kategorię do bazy"
+                                    Margin="5"
+                                    Command="{Binding TabDodKategorie.DodajKategorie}"
+                                    
+                                    
+                             />
+                        </Grid>
+                    </StackPanel>
+                    <!-- LISTA Kategori  -->
+                    <DataGrid 
+                        x:Name="dg_kategorie"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabDodKategorie.Kategorie}"   
+                            
+                    >
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Kategoria" Binding="{Binding Nazwa}"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="dodajautora" Header="Dodaj nowego autora">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <TextBlock Text="Imie:"/>
+                        <TextBox x:Name="imie_autora"  Text="{Binding TabDodAutora.Imie}"/>
+                        <TextBlock Text="Nazwisko:"/>
+                        <TextBox x:Name="nazwisko_autora"  Text="{Binding TabDodAutora.Nazwisko}"/>
+                        <TextBlock Text="Data urodzenia(dd/mm/yyyy):"/>
+                        <TextBox x:Name="data_urodzenia_autora"  Text="{Binding TabDodAutora.Data_urodzenia}"/>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_Dodaj_aut" Grid.Column="0" Content="Dodaj autora do bazy"
+                                    Margin="5"
+                                    Command="{Binding TabDodAutora.DodajAutora}"
+                                    
+                             />
+                        </Grid>
+                    </StackPanel>
+                    <!-- LISTA Autorow  -->
+                    <DataGrid 
+                        x:Name="dg_autorzy"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabDodAutora.Autorzy}"   
+                            
+                    >
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Imie" Binding="{Binding Imie}"/>
+                            <DataGridTextColumn Header="Nazwisko" Binding="{Binding Nazwisko}"/>
+                            <DataGridTextColumn Header="Data urodzenia" Binding="{Binding Data_urodzenia}"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="dodajwydawnictwo" Header="Dodaj nowe wydawnictwo">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <TextBlock Text="Wydawnictwo:"/>
+                        <TextBox x:Name="wydawnictwo"  Text="{Binding TabDodWydawnictwo.Nazwa}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_Dodaj_wyd" Grid.Column="0" Content="Dodaj wydawnictwo do bazy"
+                                    Margin="5"
+                                    Command="{Binding TabDodWydawnictwo.DodajWydawnictwo}"
+                                    
+                                    
+                             />
+                        </Grid>
+                    </StackPanel>
+                    <!-- LISTA Kategori  -->
+                    <DataGrid 
+                        x:Name="dg_wydawnictwo"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabDodWydawnictwo.Wydawnictwa}"   
+                            
+                    >
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Wydawnictwo" Binding="{Binding Nazwa}"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+
+                </Grid>
+            </TabItem>
+
+     
+
+
+            <TabItem x:Name="sprawdzksiazki" Header="Zobacz stan ksiazek">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <TextBlock Text="Tytuł:"/>
+                        <TextBox Text="{Binding TabZliKsiazki.AktualnyTytul}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_reset" Grid.Column="0" Content="Reset wyszukiwania"
+                                    Margin="5"
+                                    Command="{Binding TabZliKsiazki.Reset}"       
+                             />
+                            <Button x:Name="button_szukaj" Grid.Column="1" Content="Szukaj"
+                                    Margin="5"
+                                    Command="{Binding TabZliKsiazki.Szukaj}"       
+                             />
+                            
+                        </Grid>
+
+                    </StackPanel>
+                    <!-- LISTA zgrupowanych KSIAZEK  -->
+                    <DataGrid 
+                        x:Name="dg_zlksiazki"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabZliKsiazki.Gksiazki}"
+                        
+                            
+                    >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tytuł" Binding="{Binding Tytul}"/>
+                            <DataGridTextColumn Header="Ilość" Binding="{Binding Ilosc}"/>
+                            
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="wypozyczenieksiazki" Header="Wypozycz">
+                
+                    <!--
+                    
+                    
+                    - wydanie książki(wypożyczenie)   zakładka nr.3
+	id_czytelnik -> select czytelników
+	id_ksiazka - która nie jest wypozyczona - select!
+	id_pracownik ->select pracowników!
+	data_wydania->data wydania
+                    -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        
+                        <!-- combobox na  wybranie  czytelnika  imie nazwisko-->
+                        <TextBlock Text="Czytelnik:"/>
+                        <ComboBox Grid.Row="0" Grid.Column="0" 
+                        SelectedItem="{Binding TabDodWypozyczenie.BiezacyCzytelnik,
+                            UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{Binding TabDodWypozyczenie.Czytelnicy, Mode=TwoWay}" 
+                        Height="30" VerticalAlignment="Top"  Margin="10" FontSize="16"
+                        Name="czytelnicy" />
+                        <!-- pokazanie danych wybranego czytelnika-->
+                        <!-- telefon-->
+                        <TextBlock Text="Telefon:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodWypozyczenie.BiezacyCzytelnik.Telefon}"/>
+                        <!-- data urodzenia -->
+                        <TextBlock Text="Data urodzenia:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodWypozyczenie.BiezacyCzytelnik.Data_urodzenia}"/>
+                        <!-- email -->
+                        <TextBlock Text="Email:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodWypozyczenie.BiezacyCzytelnik.Email}"/>
+                        <!-- combobox na wybranie pracowanika imie nazwisko -->
+                        <TextBlock Text="Pracownik:" FontSize="16"/>
+                        <ComboBox Grid.Row="0" Grid.Column="0" 
+                                  SelectedItem="{Binding TabDodWypozyczenie.BiezacyPracownik, Mode=TwoWay}"
+                        ItemsSource="{Binding TabDodWypozyczenie.Pracownicy, Mode=TwoWay}" 
+                        Height="30" VerticalAlignment="Top"  Margin="10" FontSize="16"
+                        Name="pracownicy" />
+                        <!-- pokazanie danych wybranego pracownika-->
+                        <!-- telefon-->
+                        <TextBlock Text="Telefon:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodWypozyczenie.BiezacyPracownik.Telefon}"/>
+                        <!-- data urodzenia -->
+                        <TextBlock Text="Data urodzenia:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodWypozyczenie.BiezacyPracownik.Data_urodzenia}"/>
+                        <!-- email -->
+                        <TextBlock Text="Email:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodWypozyczenie.BiezacyPracownik.Email}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_wypozycz" Grid.Column="0" Content="Wypozycz ksiazke"
+                                    Margin="5"
+                                    Command="{Binding TabDodWypozyczenie.DodajWypozyczenie}"
+                             />
+                           
+                        </Grid>
+                    </StackPanel>
+                    <!-- LISTA wolnych KSIAZEK  -->
+                    <DataGrid 
+                        x:Name="dg_ksiazki"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabDodWypozyczenie.WolneKsiazki}"
+                        SelectedItem="{Binding TabDodWypozyczenie.AktualnieWybranaKsiazka}"
+                            
+                    >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tytuł" Binding="{Binding Tytul}"/>
+                            <DataGridTextColumn Header="Autor" Binding="{Binding Nazwa_autora}"/>
+                            <DataGridTextColumn Header="Wydawnictwo" Binding="{Binding Nazwa_wydawnictwa}"/>
+                            <DataGridTextColumn Header="Kategoria" Binding="{Binding Nazwa_kategorii}"/>
+                            <DataGridTextColumn Header="Rok wydania" Binding="{Binding Rok_wydania}"/>
+                        </DataGrid.Columns>
+
+
+
+                    </DataGrid>
+
+                </Grid>
+
+            </TabItem>
+
+            <TabItem x:Name="zwrotksiazki" Header="Zwrot ksiazki">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+
+                        <!-- combobox na wybranie pracowanika imie nazwisko -->
+                        <TextBlock Text="Pracownik:" FontSize="16"/>
+                        <ComboBox Grid.Row="0" Grid.Column="0" 
+                                  SelectedItem="{Binding TabDodZwrot.BiezacyPracownik, Mode=TwoWay}"
+                        ItemsSource="{Binding TabDodZwrot.Pracownicy, Mode=TwoWay}" 
+                        Height="30" VerticalAlignment="Top"  Margin="10" FontSize="16"
+                        Name="pracownicy2" />
+                        <!-- pokazanie danych wybranego pracownika-->
+                        <!-- telefon-->
+                        <TextBlock Text="Telefon:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodZwrot.BiezacyPracownik.Telefon}"/>
+                        <!-- data urodzenia -->
+                        <TextBlock Text="Data urodzenia:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodZwrot.BiezacyPracownik.Data_urodzenia}"/>
+                        <!-- email -->
+                        <TextBlock Text="Email:" FontSize="16"/>
+                        <TextBlock Text="{Binding TabDodZwrot.BiezacyPracownik.Email}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="button_zwroc" Grid.Column="0" Content="Zwroc ksiazke"
+                                    Margin="5"
+                                    Command="{Binding TabDodZwrot.DodajZwrot}"
+                             />
+
+                        </Grid>
+                    </StackPanel>
+                    <!-- LISTA wolnych KSIAZEK  -->
+                    <DataGrid 
+                        x:Name="dg_wypozyczone_ksiazki"
+                        Grid.Column="1"
+                        AutoGenerateColumns="False"
+                        Margin="5"
+                        AlternatingRowBackground="Lavender"
+                        GridLinesVisibility="None"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TabDodZwrot.WypozyczoneKsiazki}"
+                        SelectedItem="{Binding TabDodZwrot.AktualnieWybranaKsiazka}"
+                            
+                    >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Tytuł" Binding="{Binding Tytul}"/>
+                            <DataGridTextColumn Header="Autor" Binding="{Binding Nazwa_autora}"/>
+                            <DataGridTextColumn Header="Wydawnictwo" Binding="{Binding Nazwa_wydawnictwa}"/>
+                            <DataGridTextColumn Header="Kategoria" Binding="{Binding Nazwa_kategorii}"/>
+                            <DataGridTextColumn Header="Rok_wydania" Binding="{Binding Rok_wydania}"/>
+                        </DataGrid.Columns>
+
+
+
+                    </DataGrid>
+
+                </Grid>
+
+            </TabItem>
+            
+       
+
+        </TabControl>
+    </Grid>
+
+</Window>
