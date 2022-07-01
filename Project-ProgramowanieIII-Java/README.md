@@ -1,2 +1,3 @@
 # Project-Java-Polsl
-Algorytmion
+Rozwiązanie problemu z Algorytmionu 
+
