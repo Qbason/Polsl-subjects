@@ -1,0 +1,240 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package projekt_algorytmion;
+
+/**
+ *
+ * @author Qbason
+ */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+public class Projekt_Algorytmion {
+
+    /**
+     * @param sciezka
+     * @return
+     */
+    public static int counter_line(String sciezka){
+        int lines = 0;
+        try{
+           Scanner reader = new Scanner(new File(sciezka)); 
+           
+           while(reader.hasNext()){
+               reader.nextLine();
+               lines++;
+           }
+           reader.close();
+            return lines;
+        }catch(Exception e){
+            System.out.println("Nieudane wczytanie pliku");
+            return -1;
+        }
+       
+       
+    }
+    
+//    public static void swap(double [][]tablica,int index1, int index2){
+//        
+//        double temp0 = tablica[index1][0];
+//        double temp1 = tablica[index1][1];
+//        
+//        tablica[index1][0] = tablica[index2][0];
+//        tablica[index1][1] = tablica[index2][1];
+//        
+//        tablica[index2][0] = temp0;
+//        tablica[index2][1] = temp1;
+//        
+//        
+//    }
+    
+    public static int find_last_less_than_max_index(double [][]tablica, double max){
+        
+        
+        for(int i=0;i<tablica.length;i++){
+            if(tablica[i][0]>max){
+                
+                return i-1;
+            }
+        }      
+        return tablica.length-1;//the last good option
+        
+        
+    }
+    
+    public static void show_array(double [][]tablica){
+        
+        for(int i = 0;i<tablica.length;i++){
+            
+            System.out.println("Index: "+(int)tablica[i][1]+" liczba: "+tablica[i][0]);
+            
+        }
+        
+    }
+    
+    
+    
+    public static boolean read_lines_to_array(double [][]numbers_array){
+        File plik = new File("wej.txt");
+        String tekst;
+        int i = 0;
+        
+        try{
+            Scanner odczyt = new Scanner(plik);
+            odczyt.nextLine();//avoid the first line with money
+            while(odczyt.hasNextLine()){
+                    tekst = odczyt.next();                          //Liczba poprawna
+                    numbers_array[i][0] = Double.parseDouble(tekst); // przypisanie liczby
+                    numbers_array[i][1] = i+1;                      //przypisanie odpowiedniego indexu
+                    odczyt.nextLine();                              //przejście do nowej lini
+                    i++;
+                    
+            }
+            odczyt.close();
+            return true; //everything is fine
+        }catch(Exception e){
+                
+            System.out.println("Nieprawidlowe dane!"+e);
+            return false; // smth went wrong
+        }
+        
+    }
+     public static double read_max_money(double [][]numbers_array){
+        File plik = new File("wej.txt");
+
+        try{
+            Scanner odczyt = new Scanner(plik);
+            double max_money = Double.parseDouble(odczyt.nextLine());
+            odczyt.close();
+            return max_money; //everything is fine
+        }catch(Exception e){
+            //System.out.println("Nieprawidlowe dane! "+e);
+            return -1; // smth went wrong
+        }
+        
+    }
+     
+     public static void find_one_solution(double [][]tablica,int last_index, double max_money){
+     
+         
+         double suma;
+         String sposob;
+         
+         int []tablica_pominiec=new int[0];
+         boolean czy_pominac;
+         boolean end_this_step=false;
+         
+         while(end_this_step==false){
+             suma = 0.0;
+             sposob = "";
+        
+            for(int i = last_index; 0<=i;i--){
+                
+                
+                //System.out.println(sposob);
+                czy_pominac = false;
+                //System.out.println(i);
+                for(int var: tablica_pominiec){
+                    //System.out.println("z tablicy pominiec: "+var );
+                    if(i == var){
+                        //System.out.println("z tablicy pominiec: "+var+" aktualny index: "+i);
+                        if(i==var && czy_pominac == true){
+                            czy_pominac = false;
+                            break;
+                            
+                        }
+                        czy_pominac = true;
+                        
+                    }
+                }
+                //System.out.println(czy_pominac);
+                
+                if(czy_pominac==false){
+                    System.out.println(suma);
+                    if( tablica[i][0]+suma==max_money)
+                    {
+
+                        suma = suma+tablica[i][0];
+                        sposob = sposob +(int)(tablica[i][1])+" ";
+                        tablica_pominiec  = Arrays.copyOf(tablica_pominiec, tablica_pominiec.length +1);
+                        tablica_pominiec[tablica_pominiec.length-1] = i;
+                        System.out.println("Suma wynosi: "+suma+" indeksy: "+sposob);
+                        
+                        break; //znaleziono jedno!
+
+                    }else if(tablica[i][0]+suma>max_money){
+
+                            //tablica_pominiec  = Arrays.copyOf(tablica_pominiec, tablica_pominiec.length +1);
+                            //tablica_pominiec[tablica_pominiec.length-1] = i;
+                            //break;//za duza kwota
+                        
+
+
+                    }else{
+                           suma = suma+tablica[i][0];
+                           sposob = sposob +(int)(tablica[i][1])+" ";
+                           if(i!=last_index){
+                               tablica_pominiec  = Arrays.copyOf(tablica_pominiec, tablica_pominiec.length +1);
+                               tablica_pominiec[tablica_pominiec.length-1] = i;
+                            //end_this_step=true;
+                           }
+                            
+                           
+                    }
+                }
+                if(tablica_pominiec.length == last_index){
+                      end_this_step=true;      
+                 }
+
+
+
+
+
+            }
+        }
+         
+         
+         
+     }
+    
+    
+    public static void main(String[] args) throws FileNotFoundException {
+        
+        int liczba_lin = counter_line("wej.txt");
+        double [][]numbers_array = new double[liczba_lin-1][2];
+        int last_good_index;
+        int [][]possible_solutions;
+        
+        //read, how much money do we have
+        double max_money = read_max_money(numbers_array);
+        //reading lines
+        if(max_money != -1){
+            if(read_lines_to_array(numbers_array)){
+            
+                show_array(numbers_array);
+                System.out.println("Sortowanie"); 
+                Arrays.sort(numbers_array, (a,b)->Double.compare(a[0],b[0]));
+                show_array(numbers_array);
+                last_good_index = find_last_less_than_max_index(numbers_array, max_money);
+                //System.out.println(last_good_index);
+                find_one_solution(numbers_array, last_good_index, max_money);
+            
+            }else{
+                System.out.println("Nieprawidłowo podane dane");
+            }
+        }else{
+            System.out.println("Brak mozliwosci odczytu pliku");//if we cannot read the first line 
+        }
+        
+        // now we have range 0 to last_good_index included where we see good combination
+
+        
+        
+        
+    }
+    
+}
