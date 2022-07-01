@@ -1,2 +1,2 @@
 # Polsl_qba
-Gra polegająca na zgadnięciu liczby z interfejsem graficznym
+Gra z interfejsem graficznym polegająca na zgadnięciu liczby 
