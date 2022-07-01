@@ -1,0 +1,4 @@
+﻿  Sudoku_projekt.cpp
+C:\Users\kuba1\Documents\Visual Studio 2019\Sudoku_projekt\Sudoku_projekt\Sudoku_projekt.cpp(118,26): error C2664: „int read_file(FILE,int **)”: nie można dokonać konwersji argumentu 1 z „FILE *” do „FILE”
+C:\Users\kuba1\Documents\Visual Studio 2019\Sudoku_projekt\Sudoku_projekt\Sudoku_projekt.cpp(118,26): message : Żaden konstruktor nie mógł przyjąć typu źródłowego lub rozpoznanie przeciążenia konstruktora było niejednoznaczne
+C:\Users\kuba1\Documents\Visual Studio 2019\Sudoku_projekt\Sudoku_projekt\Sudoku_projekt.cpp(10,5): message : zobacz deklarację „read_file”
