@@ -1,2 +1,2 @@
 # Polsl_qba
-Export z zajęć
+Gra polegająca na zgadnięciu liczby z interfejsem graficznym
