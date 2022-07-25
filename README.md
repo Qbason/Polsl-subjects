@@ -12,3 +12,5 @@ Programowanie II - projekt Python- Gra snake -Interfejs graficzny 
 Programownie III - projekt Java - zadanie algorytmion "Siatka Tomka" - Konsolowy
 
 Programowanie obiektowe i graficzne - C# - WPF - Biblioteka - Interfejs graficzny
+
+Tomografia komputerowa - Python - wyjscie w postaci obrazu
