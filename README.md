@@ -13,4 +13,4 @@ Programownie III - projekt Java - zadanie algorytmion "Siatka Tomka" - Konsolowy
 
 Programowanie obiektowe i graficzne - C# - WPF - Biblioteka - Interfejs graficzny
 
-Tomografia komputerowa - Python - wyjscie w postaci obrazu
+Tomografia komputerowa - Python - symulator tomografu komputerowego - Wyjscie w postaci obrazu
